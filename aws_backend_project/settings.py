@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = json.loads(os.getenv("DEBUG", "false").lower())
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -82,12 +82,12 @@ WSGI_APPLICATION = "aws_backend_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": os.getenv("DATBASE_ENGINE"),
-        "NAME": BASE_DIR / os.getenv("DATABASE_NAME"),
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": os.getenv("DATBASE_ENGINE"),
+#         "NAME": BASE_DIR / os.getenv("DATABASE_NAME"),
+#     }
+# }
 
 
 # Password validation
@@ -138,3 +138,8 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = json.loads(os.getenv("EMAIL_USE_TLS").lower())
 EMAIL_USE_SSL = json.loads(os.getenv("EMAIL_USE_SSL").lower())
+
+
+STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
+MEDIA_URLS = "/media/"
+MEDIA_ROOT = BASE_DIR/ "media"
