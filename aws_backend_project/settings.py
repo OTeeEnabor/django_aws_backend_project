@@ -125,7 +125,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
-
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles_build"  # / "static"
+MEDIA_URLS = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -138,8 +141,3 @@ EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = json.loads(os.getenv("EMAIL_USE_TLS").lower())
 EMAIL_USE_SSL = json.loads(os.getenv("EMAIL_USE_SSL").lower())
-
-
-STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
-MEDIA_URLS = "/media/"
-MEDIA_ROOT = BASE_DIR/ "media"
