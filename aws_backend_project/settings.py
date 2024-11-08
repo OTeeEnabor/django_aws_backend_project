@@ -82,12 +82,16 @@ WSGI_APPLICATION = "aws_backend_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": os.getenv("DATBASE_ENGINE"),
-#         "NAME": BASE_DIR / os.getenv("DATABASE_NAME"),
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": os.getenv("DATBASE_ENGINE"),
+        "NAME": os.getenv("DATABASE_NAME"),
+        "USER":os.getenv("DATABASE_USER"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+        "HOST": os.getenv("DATABASE_HOST"),
+        "PORT": os.getenv("DATABASE_PORT")
+    }
+}
 
 
 # Password validation
