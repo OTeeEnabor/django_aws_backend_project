@@ -84,12 +84,12 @@ WSGI_APPLICATION = "aws_backend_project.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DATBASE_ENGINE"),
+        "ENGINE": os.getenv("DATABASE_ENGINE"),
         "NAME": os.getenv("DATABASE_NAME"),
-        "USER":os.getenv("DATABASE_USER"),
+        "USER": os.getenv("DATABASE_USER"),
         "PASSWORD": os.getenv("DATABASE_PASSWORD"),
         "HOST": os.getenv("DATABASE_HOST"),
-        "PORT": os.getenv("DATABASE_PORT")
+        "PORT": os.getenv("DATABASE_PORT"),
     }
 }
 
