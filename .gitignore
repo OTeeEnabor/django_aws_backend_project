@@ -3,6 +3,7 @@
 # Project context
 docs/
 products/
+staticfiles_build/
 ### Django ###
 *.log
 *.pot
