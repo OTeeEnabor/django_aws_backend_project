@@ -131,11 +131,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
-# STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
-MEDIA_URLS = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+# STATIC_URL = "static/"
+# # STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -149,30 +148,56 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = json.loads(os.getenv("EMAIL_USE_TLS").lower())
 EMAIL_USE_SSL = json.loads(os.getenv("EMAIL_USE_SSL").lower())
 
-# AWS Configuration
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-# AWS Basic Storage Configuration for Amazon S3
-AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
-AWS_S3_SIGNATURE_NAME = os.getenv("AWS_S3_SIGNATURE_NAME")
-AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
-AWS_S3_FILE_OVERWRITE = json.loads(os.getenv("AWS_S3_FILE_OVERWRITE").lower())
-AWS_DEFAULT_ACL = json.loads(os.getenv("AWS_DEFAULT_ACL"))
-AWS_S3_VERITY = json.loads(os.getenv("AWS_S3_VERITY").lower())
-# DEFAULT_FILE_STORAGE=os.getenv("DEFAULT_FILE_STORAGE")
+USE_S3 = json.loads(os.getenv("USE_S3").lower())
 
-STORAGES = {
-    # Media file (image) management
-    "default": {
-        "BACKEND": os.getenv(
-            "DEFAULT_FILE_BACKEND_STORAGE"
-        )  # "django.core.files.storage.FileSystemStorage"  # os.getenv("DEFAULT_FILE_BACKEND_STORAGE")
-    },
-    # CSS and JS file management
-    "staticfiles": {
-        "BACKEND": os.getenv(
-            "DEFAULT_FILE_BACKEND_STORAGE"
-        )  # "django.contrib.staticfiles.storage.StaticFilesStorage"  # os.getenv("DEFAULT_FILE_BACKEND_STORAGE")
-    },
-}
+if USE_S3:
+
+    # AWS Configuration
+    AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+    # AWS Basic Storage Configuration for Amazon S3
+    AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    AWS_S3_SIGNATURE_NAME = os.getenv("AWS_S3_SIGNATURE_NAME")
+    AWS_S3_REGION_NAME = os.getenv("AWS_S3_REGION_NAME")
+    AWS_S3_FILE_OVERWRITE = json.loads(os.getenv("AWS_S3_FILE_OVERWRITE").lower())
+    AWS_DEFAULT_ACL = json.loads(os.getenv("AWS_DEFAULT_ACL"))
+    AWS_S3_VERITY = json.loads(os.getenv("AWS_S3_VERITY").lower())
+    AWS_LOCATION = "static"
+    # DEFAULT_FILE_STORAGE=os.getenv("DEFAULT_FILE_STORAGE")
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
+    STORAGES = {
+        # Media file (image) management
+        "default": {
+            "BACKEND": os.getenv(
+                "DEFAULT_FILE_BACKEND_STORAGE"
+            )  # "django.core.files.storage.FileSystemStorage"  # os.getenv("DEFAULT_FILE_BACKEND_STORAGE")
+        },
+        # CSS and JS file management
+        "staticfiles": {
+            "BACKEND": os.getenv(
+                "DEFAULT_FILE_BACKEND_STORAGE"
+            )  # "django.contrib.staticfiles.storage.StaticFilesStorage"  # os.getenv("DEFAULT_FILE_BACKEND_STORAGE")
+        },
+    }
+else:
+    STATIC_URL = "/staticfiles/"
+    STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"  # why?
+    STORAGES = {
+        # Media file (image) management
+        "default": {
+            "BACKEND": os.getenv(
+                "django.core.files.storage.FileSystemStorage"
+            )  # os.getenv("DEFAULT_FILE_BACKEND_STORAGE")
+        },
+        # CSS and JS file management
+        "staticfiles": {
+            "BACKEND": os.getenv(
+                "django.contrib.staticfiles.storage.StaticFilesStorage"
+            )  # os.getenv("DEFAULT_FILE_BACKEND_STORAGE")
+        },
+    }
+
+STATICFILES_DIRS = [BASE_DIR / "static"]
+MEDIA_URLS = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
